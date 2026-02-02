@@ -1,0 +1,39 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.min.css');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-color: #192028;
+  --standard-card-bg: #1f2a33;
+  --premium-card-bg: #2a3942;
+  --button-bg: #ae782f;
+  --button-hover-bg: #d47b15;
+  --text-color: #e5e7eb;
+
+  /* Font variables injected by next/font */
+  --font-heading: var(--font-montserrat);
+  --font-body: var(--font-open-sans);
+}
+
+html, body, #__next {
+  height: 100%;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-body), system-ui, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), sans-serif;
+  font-weight: 700;
+}
+
+p, a, li, button, span {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 400;
+}
