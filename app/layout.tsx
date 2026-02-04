@@ -81,6 +81,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
+      <head>
+        <script src="https://js.paystack.co/v1/inline.js"></script>
+      </head>
       <Head>
         {/* Google tag (gtag.js) */}
         <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
@@ -151,6 +154,7 @@ export default function RootLayout({
           }}
         />
       </Head>
+      
       <body className={`${montserrat.variable} ${opensans.variable} bg-[bg]text-white antialiased`}>
         <a
           href="#main-content"

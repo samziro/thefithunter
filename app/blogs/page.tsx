@@ -90,8 +90,8 @@ export default async function BlogPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-textSecondary mb-4 ">
             Fit Hunter Blog
           </h1>
-          <Link href={"/"} className="bg-button px-8 py-3 text-textSecondary font-medium transition-colors ">
-            ← Back to Home
+          <Link href={"/"} className="bg-button px-8 py-3 text-textSecondary font-medium transition-colors flex items-center">
+            <i className="ri-arrow-left-line"></i> Back to Home
           </Link>
           </div>
           <p className="text-lg md:text-xl text-textMain max-w-3xl  leading-relaxed">

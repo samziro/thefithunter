@@ -10,19 +10,11 @@ import PackageCard from "@/components/PackageCard";
 import Head from "next/head";
 
 export default function ProgramPage() {
-  const [isClientModalOpen, setIsClientModalOpen] = useState(false);
+  const [isClientModalOpen, setIsClientModalOpen] = useState(!true);
   const router = useRouter();
 
   const handleBuyClick = () => {
-    try {
-      if (
-        typeof window !== "undefined" &&
-        localStorage.getItem("clientAuth") === "true"
-      ) {
-        router.push("/order");
-        return;
-      }
-    } catch {}
+   
     setIsClientModalOpen(true);
   };
 
