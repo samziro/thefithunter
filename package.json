@@ -22,6 +22,7 @@
     "recharts": "^3.0.2"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.3",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.31",
     "@types/react": "^19",
@@ -30,8 +31,11 @@
     "cross-env": "^7.0.3",
     "eslint": "^10.0.1",
     "eslint-config-next": "^16.1.6",
+    "globals": "^17.3.0",
+    "jiti": "^2.6.1",
     "postcss": "^8.5.5",
     "tailwindcss": "^3.4.17",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.56.0"
   }
 }
