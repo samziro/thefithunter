@@ -10,20 +10,29 @@ declare global {
   }
 }
 
-export default function CheckoutForm() {
+type CheckoutFormProps = {
+  amountKES: number;           
+  packageName: string;         
+  onSuccess?: () => void;      
+  onCancel?: () => void;
+};
+
+export default function CheckoutForm({amountKES,packageName,onSuccess,onCancel}: CheckoutFormProps) {
+
   const router = useRouter();
 
-  const publicKey = "pk_test_148c8beaa23ffd37481f265f6831e09110e4e333";
-  const amount = 1000000;
+  const publicKey = process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY;
+
+  if (!publicKey) {
+    throw new Error("Paystack public key missing in environment variables");
+  }
+
+  const amountInKobo = amountKES * 100;
 
   const [email, setEmail] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [age, setAge] = useState("");
-  const [goal, setGoal] = useState("");
-  const [nationality, setNationality] = useState("");
+
   const [phone, setPhone] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+
 
   const onClose = () => {
     router.back();
@@ -35,12 +44,9 @@ export default function CheckoutForm() {
       return;
     }
 
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
+    
 
-    if (!email || !fullName || !phone) {
+    if (!email || !phone) {
       alert("Please fill all required fields");
       return;
     }
@@ -53,10 +59,7 @@ export default function CheckoutForm() {
 
       metadata: {
         custom_fields: [
-          { display_name: "Full Name", variable_name: "full_name", value: fullName },
-          { display_name: "Age", variable_name: "age", value: age },
-          { display_name: "Goal", variable_name: "goal", value: goal },
-          { display_name: "Nationality", variable_name: "nationality", value: nationality },
+          
           { display_name: "Phone", variable_name: "phone", value: phone },
         ],
       },

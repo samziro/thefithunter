@@ -123,8 +123,9 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-[#292929] mt-8 pt-8 text-center text-sm text-textMain">
+        <div className="border-t border-[#292929] mt-8 pt-8 text-center text-sm text-textMain flex flex-col md:flex-row items-center justify-center gap-4">
           <p>&copy; {currentYear} FIT HUNTER. All rights reserved.</p>
+          <p>Designed by <span><a href="https://samuel-ziro.vercel.app" className='font-bold'>techforgenode</a></span></p>
         </div>
       </div>
     </footer>

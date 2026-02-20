@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat, Open_Sans } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
-import Head from "next/head";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -15,147 +15,112 @@ const opensans = Open_Sans({
   display: "swap",
 });
 
-const GA_ID = "G-N6TV3T6VDR"; // Google Analytics / Measurement ID
+const GA_ID = "G-N6TV3T6VDR";
+const META_PIXEL_ID = "PASTE_META_PIXEL_ID";
+const TIKTOK_PIXEL_ID = "PASTE_TIKTOK_PIXEL_ID";
+
 export const metadata: Metadata = {
   title: {
-    default: " Personal Trainer in Watamu, Kenya | Fit Hunter",
-    template: "%s | Personal Trainer Watamu - Fit Hunter",
+    default: "Personal Trainer in Watamu, Kenya | Fit Hunter",
+    template: "%s | Fit Hunter",
   },
   description:
-    "Profesional personal trainer in Watamu, Kenya. Affordable one-on-one sessions, workout programs, meal plans and online coaching to help you build strength and confidence.",
-  keywords: [
-    "personal trainer Watamu",
-    "fitness coach Kenya",
-    "beach workouts Watamu",
-    "personal training Kilifi",
-    "online fitness coaching Kenya",
-    "strength training Watamu",
-    "affordable personal trainer Kenya",
-  ],
-  authors: [{ name: "Fit Hunter", url: "https://thefithunter.com" }],
-  creator: "Fit Hunter",
-  publisher: "Fit Hunter",
+    "Professional personal trainer in Watamu, Kenya. Affordable one-on-one sessions, meal plans, workout programs and online coaching.",
   metadataBase: new URL("https://thefithunter.com"),
-  alternates: {
-    canonical: "/",
-  },
-  openGraph: {
-    title: "Fit Hunter | Personal Trainer in Watamu, Kenya",
-    description:
-      "Get fit with personalized training in Watamu. Meal plans, workout programs, and one-on-one sessions.",
-    url: "https://thefithunter.com",
-    siteName: "Fit Hunter",
-    images: [
-      {
-        url: "/about.webp",
-        width: 1200,
-        height: 630,
-        alt: "Fit Hunter personal trainer in Watamu, Kenya",
-      },
-    ],
-    locale: "en_KE",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Personal Trainer Watamu | Fit Hunter",
-    description:
-      "Professional trainer offering affordable workout programs, meal plans and custom fitness plans in Watamu, Kenya.",
-    images: ["/logo.webp"],
-    creator: "@The_Fithunter",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
-  },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        <script src="https://js.paystack.co/v1/inline.js"></script>
-      </head>
-      <Head>
-        {/* Google tag (gtag.js) */}
-        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`} />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', '${GA_ID}');
-            `,
-          }}
-        />
 
-        {/* Mobile friendly */}
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      {/* ================= GOOGLE ANALYTICS ================= */}
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+        strategy="afterInteractive"
+      />
 
-        {/* Favicon & App Icons */}
-        <link rel="icon" href="/logo.webp" />
-        <link rel="apple-touch-icon" href="/logo.webp" />
-        <link rel="manifest" href="/site.webmanifest" />
+      <Script id="ga4" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${GA_ID}');
+        `}
+      </Script>
 
-        {/* Structured Data: Local Business + Product */}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "LocalBusiness",
-              name: "Fit Hunter - Personal Trainer Watamu",
-              description: "Professional personal trainer in Watamu, Kenya offering affordable one-on-one sessions, strength training, weight loss programs, and online coaching at your preferred location. Build strength and confidence starting today.",
-              url: "https://thefithunter.com",
-              telephone: "+254748679264",
-              address: {
-                "@type": "PostalAddress",
-                streetAddress: "Jiwe-leupe",
-                addressLocality: "Watamu",
-                addressRegion: "Kilifi",
-                postalCode: "80202",
-                addressCountry: "KE",
-              },
-              image: "/logo.webp",
-              priceRange: "KSh 2,000 - KSh 55,500",
-              sameAs: [
-                "https://www.youtube.com/@the.fit.hunter",
-                "https://www.facebook.com/share/19vKATkcoR/?mibextid=wwXIfr",
-                "https://www.instagram.com/the.fithunter?igsh=ejNsNjFtcm9sMHIz",
-                "https://www.tiktok.com/@the.fithunter?_r=1&_t=ZM-92BhU4TBlV2",
-               
-              ],
-              makesOffer: {
-                "@type": "Offer",
-                itemOffered: {
-                  "@type": "Service",
-                  name: "Personal Training Session",
-                  image: "/logo.webp",
-                  description: "Professional personal training sessions in Watamu, Kenya.",
-                  brand: { "@type": "Brand", name: "Fit Hunter - Personal Trainer Watamu" },
-                  offers: {
-                    "@type": "Offer",
-                    priceCurrency: "KES",
-                    price: "2000",
-                    availability: "https://schema.org/InStock",
-                  },
-                },
-              },
-            }),
-          }}
-        />
-      </Head>
-      
-      <body className={`${montserrat.variable} ${opensans.variable} bg-[bg]text-white antialiased`}>
+      {/* ================= META PIXEL ================= */}
+      <Script id="meta-pixel" strategy="afterInteractive">
+        {`
+          !function(f,b,e,v,n,t,s)
+          {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+          n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+          if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+          n.queue=[];t=b.createElement(e);t.async=!0;
+          t.src=v;s=b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t,s)}(window, document,'script',
+          'https://connect.facebook.net/en_US/fbevents.js');
+
+          fbq('init', '${META_PIXEL_ID}');
+          fbq('track', 'PageView');
+        `}
+      </Script>
+
+      {/* ================= TIKTOK PIXEL ================= */}
+      <Script id="tiktok-pixel" strategy="afterInteractive">
+        {`
+          !function (w, d, t) {
+            w.TiktokAnalyticsObject=t;
+            var ttq=w[t]=w[t]||[];
+            ttq.methods=["page","track","identify","instances","debug","on","off","once","ready","alias","group","enableCookie","disableCookie"];
+            ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};
+            for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);
+            ttq.load=function(e){
+              var i="https://analytics.tiktok.com/i18n/pixel/events.js";
+              ttq._i=ttq._i||{};
+              ttq._i[e]=[];
+              var o=d.createElement("script");
+              o.type="text/javascript";
+              o.async=true;
+              o.src=i+"?sdkid="+e+"&lib="+t;
+              var a=d.getElementsByTagName("script")[0];
+              a.parentNode.insertBefore(o,a);
+            };
+            ttq.load('${TIKTOK_PIXEL_ID}');
+            ttq.page();
+          }(window, document, 'ttq');
+        `}
+      </Script>
+
+      {/* ================= PAYSTACK ================= */}
+      <Script
+        src="https://js.paystack.co/v1/inline.js"
+        strategy="afterInteractive"
+      />
+
+      {/* ================= GLOBAL EVENTS ================= */}
+      <Script id="global-events" strategy="afterInteractive">
+        {`
+          window.trackWhatsapp = function(){
+            if(window.gtag) gtag('event','contact',{method:'whatsapp'});
+            if(window.fbq) fbq('track','Contact');
+            if(window.ttq) ttq.track('Contact');
+          }
+
+          window.trackPurchase = function(amount){
+            if(window.gtag) gtag('event','purchase',{value:amount,currency:'KES'});
+            if(window.fbq) fbq('track','Purchase',{value:amount,currency:'KES'});
+            if(window.ttq) ttq.track('CompletePayment',{value:amount,currency:'KES'});
+          }
+        `}
+      </Script>
+
+      <body
+        className={`${montserrat.variable} ${opensans.variable} antialiased bg-[bg] text-white`}
+      >
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-yellow-600 focus:px-4 focus:py-2 focus:rounded-md"
@@ -164,13 +129,13 @@ export default function RootLayout({
         </a>
 
         <div className="flex min-h-dvh flex-col">
-          <header>{/* Header component will be rendered via page layout */}</header>
+          <header />
 
           <main id="main-content" className="flex-1">
             {children}
           </main>
 
-          <footer>{/* Footer component will be rendered via page layout */}</footer>
+          <footer />
         </div>
       </body>
     </html>
