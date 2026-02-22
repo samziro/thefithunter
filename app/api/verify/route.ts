@@ -3,6 +3,10 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   const { reference } = await req.json();
 
+  if (!reference) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
+
   const response = await fetch(
     `https://api.paystack.co/transaction/verify/${reference}`,
     {
@@ -14,8 +18,7 @@ export async function POST(req: Request) {
 
   const data = await response.json();
 
-  if (data.data.status === "success") {
-    // ✅ mark order as paid in DB (optional)
+  if (data?.data?.status === "success") {
     return NextResponse.json({ success: true });
   }
 

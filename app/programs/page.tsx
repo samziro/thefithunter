@@ -10,103 +10,167 @@ import Head from "next/head";
 import { supabase } from "@/lib/supabaseClient";   
 import Image from "next/image";
 
+declare global {
+  interface Window {
+    PaystackPop: any;
+  }
+}
 
 export default function ProgramPage() {
   const router = useRouter();
 
-  const [user, setUser] = useState<any>(null);
-  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-
-  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
-  const [loading, setLoading] = useState(false);
+  const [selectedPackage, setSelectedPackage] = useState<{
+      title: string;
+      price: number;
+  } | null>(null);
 
   const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    region: "",
-    goal: "",
-    age: "",
+      fullName: "",
+      email: "",
+      phone: "",
   });
 
-  const [state, setState] = useState("Sign Up")
- const handleBuyClick = async (title: string, price: number) => {
-    setSelectedPackage({ title, price });
+  // const [user, setUser] = useState<any>(null);
 
-    try {
-      const { data: { user: currentUser } } = await supabase.auth.getUser();
-      setUser(currentUser);
+  // const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
-      if (!currentUser) {
-        setIsAuthModalOpen(true);
-      } else {
-        setIsConfirmModalOpen(true);
-      }
-    } catch (err) {
-      console.error("Auth check failed:", err);
-      setIsAuthModalOpen(true); // fallback
-    }
+  // const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+
+  // const [loading, setLoading] = useState(false);
+
+  const onClose = () => {
+    router.back();
   };
+
+  // const [formData, setFormData] = useState({
+  //   fullName: "",
+  //   email: "",
+  //   phone: "",
+  //   region: "",
+  //   goal: "",
+  //   age: "",
+  // });
+
+ const handleBuyClick = (title: string, price: number) => {
+  setSelectedPackage({ title, price });
+};
 
   // After successful signup/login in modal
-  const handleAuthSuccess = async () => {
-    setIsAuthModalOpen(false);
-    const { data: { user: updatedUser } } = await supabase.auth.getUser();
-    setUser(updatedUser);
-    if (updatedUser) {
-      setIsConfirmModalOpen(true);
-    }
-  };
+  // const handleAuthSuccess = async () => {
+  //   setIsAuthModalOpen(false);
+  //   const { data: { user: updatedUser } } = await supabase.auth.getUser();
+  //   setUser(updatedUser);
+  //   if (updatedUser) {
+  //     setIsConfirmModalOpen(true);
+  //   }
+  // };
 
-  const handleMakePayment = () => {
-  if (!selectedPackage || !user?.email) return;
+  // const payWithPaystack = () => {
+  // if (!selectedPackage) {
+  //   alert("No package selected");
+  //   return;
+  // }
 
-  const paystack = (window as any).PaystackPop;
+  // if (!user || !user.email) {
+  //   alert("User not authenticated");
+  //   return;
+  // }
 
-  if (!paystack) {
-    alert("Payment system not ready. Please refresh.");
+  // if (!window.PaystackPop) {
+  //   alert("Paystack not loaded");
+  //   return;
+  // }
+
+  // const handler = window.PaystackPop.setup({
+  //   key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+  //   email: user.email,
+  //   amount: selectedPackage.price * 100,
+  //   currency: "KES",
+  //   ref: `fit_${Date.now()}`,
+  //   metadata: {
+  //     package_title: selectedPackage.title,
+  //     user_id: user.id,
+  //   },
+
+  //   callback: async function (response: any) {
+  //     const verifyRes = await fetch("/api/verify", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         reference: response.reference,
+  //       }),
+  //     });
+
+  //     const data = await verifyRes.json();
+
+  //     if (data.success) {
+  //       router.push("/client/dashboard");
+  //     } else {
+  //       alert("Payment verification failed");
+  //     }
+  //   },
+
+  //   onClose: function () {
+  //     console.log("Payment window closed");
+  //   },
+  // });
+
+  // handler.openIframe();
+  const payWithPaystack = () => {
+  if (!selectedPackage) {
+    alert("No package selected");
     return;
   }
 
-  const handler = paystack.setup({
+  if (!formData.email) {
+    alert("Please enter your email");
+    return;
+  }
+
+  if (!window.PaystackPop) {
+    alert("Paystack not loaded");
+    return;
+  }
+
+  const handler = window.PaystackPop.setup({
     key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-    email: user.email,
+    email: formData.email,
     amount: selectedPackage.price * 100,
     currency: "KES",
     ref: `fit_${Date.now()}`,
     metadata: {
+      full_name: formData.fullName,
+      phone: formData.phone,
       package_title: selectedPackage.title,
-      user_id: user.id,
     },
-    callback: function (response: any) {
-      console.log("Payment success:", response);
 
-      router.push(
-        `/client/dashboard?ref=${response.reference}&pkg=${encodeURIComponent(
-          selectedPackage.title
-        )}`
-      );
+    callback: function (response: any) {
+      alert("Payment successful!");
+      console.log(response);
     },
+
     onClose: function () {
-      console.log("Payment closed");
+      console.log("Payment window closed");
     },
   });
 
   handler.openIframe();
 };
 
-  const componentProps = {
-  email: user?.email || "",
-  amount: selectedPackage ? selectedPackage.price * 100 : 0,
-  publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string,
-  text: "Pay Now",
-  onSuccess: (ref: any) => {
-    router.push(`/client/dashboard?ref=${ref.reference}`);
-  },
-  onClose: () => alert("Payment closed"),
-};
+//   const componentProps = {
+//   email: user?.email || "",
+//   amount: selectedPackage ? selectedPackage.price * 100 : 0,
+//   publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string,
+//   text: "Pay Now",
+//   onSuccess: (ref: any) => {
+//     router.push(`/client/dashboard?ref=${ref.reference}`);
+//   },
+//   onClose: () => alert("Payment closed"),
+// };
   return (
     <>
       <Head>
@@ -346,7 +410,7 @@ export default function ProgramPage() {
           </div>
         </section>
         {/* Auth Modal (simple example – style with Tailwind) */}
-        {isAuthModalOpen && (
+        {selectedPackage && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-bg rounded-2xl p-8 max-w-4xl w-full mx-4 grid grid-cols-2 gap-8">
               <div className="grid grid-cols-1 gap-4 bg-lightBg p-4 rounded-xl">
@@ -386,24 +450,50 @@ export default function ProgramPage() {
              
               
               <form action="#" className="grid grid-cols-1 gap-4">
-                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Full Name"/>
+                {/* <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Full Name"/>
                 <input className="p-2 rounded-md bg-lightBg" type="text" placeholder={`Email `} />
                 <input className="p-2 rounded-md bg-lightBg" type="number" placeholder="Phone Number"/>
                 <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Region"/>
                 <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Goal"/>
-                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Age"/>
+                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Age"/> */}
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={formData.fullName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, fullName: e.target.value })
+                  }
+                />
+
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                />
+
+                <input
+                  type="text"
+                  placeholder="Phone Number"
+                  value={formData.phone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
+                />
                 <button
-                type="button"
-                onClick={handleMakePayment}
-                className="bg-button text-white px-6 py-3 rounded w-full mb-4 font-bold text-xl"
-              >
-                <i className="ri-lock-2-line"></i> PAY KES {selectedPackage?.price?.toLocaleString()}
-              </button>
+                  type="button"
+                  onClick={payWithPaystack}
+                  className="bg-button text-white px-6 py-3 rounded w-full font-bold"
+                >
+                  PAY KES {selectedPackage?.price?.toLocaleString()}
+                </button>
               
               </form>
               <div className="flex items-center justify-between">
-                <p className="font-bold text-button cursor-pointer underline">cancel</p>
-              <p>Already have account? <span className="font-bold text-button cursor-pointer ">sign in</span></p>
+                <p onClick={onClose} className="font-bold text-button cursor-pointer underline">cancel</p>
+                <p>Already have account? <span className="font-bold text-button cursor-pointer ">sign in</span></p>
               </div>
               </div>
               
@@ -412,7 +502,7 @@ export default function ProgramPage() {
         )}
 
         {/* Confirmation Modal */}
-        {isConfirmModalOpen && selectedPackage && user && (
+        {/* {isConfirmModalOpen && selectedPackage && user && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-[#333] rounded-lg p-8 max-w-lg w-full mx-4">
               <h2 className="text-2xl font-bold mb-6">Confirm Purchase</h2>
@@ -436,7 +526,7 @@ export default function ProgramPage() {
               </div>
 
               <button
-                onClick={handleMakePayment}
+                onClick={payWithPaystack}
                 className="bg-green-600 text-white px-8 py-4 rounded w-full text-lg font-semibold hover:bg-green-700 mb-4"
               >
                 Make Payment (KSh {selectedPackage.price.toLocaleString()})
@@ -450,7 +540,7 @@ export default function ProgramPage() {
               </button>
             </div>
           </div>
-        )}
+        )} */}
 
         <Footer />
       </div>
