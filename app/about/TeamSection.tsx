@@ -36,7 +36,7 @@ export default function TeamSection() {
                 With 11 years in fitness and 5+ years as a professional personal trainer in Watamu, Kenya, I bring proven expertise to every session.
               </p>
               <p>
-                From your first assessment to ongoing motivation, my focus is on safe, effective plans—like one-on-one training or online coaching—that get real results.
+                From your first assessment to ongoing motivation, my focus is on safe, effective plans like one-on-one training or online coaching that get real results.
               </p>
               <p>
                 I believe in empathy and support to help you achieve lasting health and confidence.

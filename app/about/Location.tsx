@@ -10,7 +10,7 @@ const Location = () => {
       <div className="max-w-7xl mx-auto my-12 py-8 flex flex-col md:flex-row gap-8 items-center">
         <div className="w-full md:w-1/2 mx-auto flex flex-col gap-4 px-6">
           <p className="mb-4 text-textMain text-base leading-relaxed ">
-            I am based in Watamu-Kenya, with no fixed gym—we. I come to you! Whether it is any gym of your own choice or at home.
+            I am based in Watamu-Kenya, with no fixed gym we. I come to you! Whether it is any gym of your own choice or at home.
           </p>
           <div className="space-y-4">
             <div className="flex items-start space-x-4">
@@ -20,7 +20,7 @@ const Location = () => {
               <div>
                 <h5 className="font-semibold text-white mb-1  text-lg">Location</h5>
                 <p className="text-textMain ">
-                  Watamu and surrounding areas, Kilifi County, Kenya—your choice of spot!
+                  Watamu and surrounding areas, Kilifi County, Kenya your choice of spot!
                 </p>
               </div>
             </div>

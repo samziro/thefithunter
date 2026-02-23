@@ -47,10 +47,10 @@ const PackageCard: React.FC<PackageCardProps> = ({
       <div className="text-3xl md:text-4xl font-bold mb-6 ">{price}</div>
 
       <ul className="space-y-3 mb-8 text-base font-inter">
-        {features.map((f, index) => (
+        {features.map((features, index) => (
           <li key={index} className="flex items-center justify-center gap-2 text-textMain leading-relaxed">
             <i className="ri-checkbox-circle-fill text-yellow-400 text-lg"></i>
-            <span>{f}</span>
+            <span>{features}</span>
           </li>
         ))}
       </ul>

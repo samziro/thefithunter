@@ -12,7 +12,7 @@ const faqs: Faq[] = [
   {
     question: 'What services does Fit Hunter offer?',
     answer:
-      'I provide personalized one-on-one training, workout programs, meal plans and online coaching—all tailored to help you reach your fitness goals with effective, evidence-based plans.',
+      'I provide personalized one-on-one training, workout programs, meal plans and online coaching all tailored to help you reach your fitness goals with effective, evidence-based plans.',
   },
   {
     question: 'How much do the programs cost?',
@@ -22,7 +22,7 @@ const faqs: Faq[] = [
   {
     question: 'Where are the sessions held?',
     answer:
-      'Based in Watamu, Kenya, with no fixed location—I come to you! Choose your home or any gym that suits you for motivation.',
+      'Based in Watamu, Kenya, with no fixed location I come to you! Choose your home or any gym that suits you for motivation.',
   },
   {
     question: 'How can I book a session?',

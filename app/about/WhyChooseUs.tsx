@@ -27,7 +27,7 @@ export default function WhyChooseUs() {
             Why Choose Fit Hunter?
           </h2>
           <p className="text-lg md:text-xl text-textMain max-w-3xl mx-auto  leading-relaxed">
-            As your personal trainer in Watamu, Kenya, I offer affordable, tailored sessions—one-on-one, both gym and home workouts to help you reach your fitness goals simply and effectively.
+            As your personal trainer in Watamu, Kenya, I offer affordable, tailored sessions one-on-one, both gym and home workouts to help you reach your fitness goals simply and effectively.
           </p>
         </div>
 

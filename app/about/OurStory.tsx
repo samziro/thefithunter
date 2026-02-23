@@ -17,10 +17,10 @@ export default function OurStory() {
                 I started with a simple goal: Help people get fit and confident through personalized training, meal plans and workouts programs. As a personal trainer, I've built this from passion of fitness.
               </p>
               <p>
-                Based in Watamu, I use years of experience to create safe, fun sessions—one-on-one coaching, outdoor training — that deliver real results.
+                Based in Watamu, I use years of experience to create safe, fun sessions one-on-one coaching, outdoor training that deliver real results.
               </p>
               <p>
-                TRAINER MOTTO: "Preying on fitness goals, one rep at a time." It's more than words—it's how I support every client's journey to better health.
+                <b>TRAINER MOTTO:</b> "Preying on fitness goals, one rep at a time." It's more than words it's how I support every client's journey to better health.
               </p>
             </div>
             <div className="mt-8 flex flex-wrap gap-6">

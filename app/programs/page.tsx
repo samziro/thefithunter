@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import Title from "@/components/Title";
 import PackageCard from "@/components/PackageCard";
 import Head from "next/head";
-import { supabase } from "@/lib/supabaseClient";   
+import { supabase } from "@/lib/supabaseClient";
 import Image from "next/image";
 
 declare global {
@@ -20,161 +20,104 @@ export default function ProgramPage() {
   const router = useRouter();
 
   const [selectedPackage, setSelectedPackage] = useState<{
-      title: string;
-      price: number;
+    title: string;
+    price: number;
   } | null>(null);
 
   const [formData, setFormData] = useState({
-      fullName: "",
-      email: "",
-      phone: "",
+    fullName: "",
+    email: "",
+    phone: "",
+    nation: "",
+    goals: "",
+    age: ""
   });
 
-  // const [user, setUser] = useState<any>(null);
-
-  // const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
-
-  // const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
-
-  // const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
-
-  // const [loading, setLoading] = useState(false);
+  
 
   const onClose = () => {
     router.back();
   };
 
-  // const [formData, setFormData] = useState({
-  //   fullName: "",
-  //   email: "",
-  //   phone: "",
-  //   region: "",
-  //   goal: "",
-  //   age: "",
-  // });
 
- const handleBuyClick = (title: string, price: number) => {
-  setSelectedPackage({ title, price });
-};
+  const handleBuyClick = (title: string, price: number) => {
+    setSelectedPackage({ title, price });
+  };
 
-  // After successful signup/login in modal
-  // const handleAuthSuccess = async () => {
-  //   setIsAuthModalOpen(false);
-  //   const { data: { user: updatedUser } } = await supabase.auth.getUser();
-  //   setUser(updatedUser);
-  //   if (updatedUser) {
-  //     setIsConfirmModalOpen(true);
-  //   }
-  // };
 
-  // const payWithPaystack = () => {
-  // if (!selectedPackage) {
-  //   alert("No package selected");
-  //   return;
-  // }
+  const payWithPaystack = async () => {
+  if (!selectedPackage) return;
 
-  // if (!user || !user.email) {
-  //   alert("User not authenticated");
-  //   return;
-  // }
+  const reference = `fit_${Date.now()}`;
 
-  // if (!window.PaystackPop) {
-  //   alert("Paystack not loaded");
-  //   return;
-  // }
+  // 1️⃣ Save client first
+  const saveRes = await fetch("/api/create-client", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      nation: formData.nation,
+      age: formData.age,
+      goals: formData.goals,
+      packageTitle: selectedPackage.title,
+      packagePrice: selectedPackage.price,
+      reference,
+    }),
+  });
 
-  // const handler = window.PaystackPop.setup({
-  //   key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
-  //   email: user.email,
-  //   amount: selectedPackage.price * 100,
-  //   currency: "KES",
-  //   ref: `fit_${Date.now()}`,
-  //   metadata: {
-  //     package_title: selectedPackage.title,
-  //     user_id: user.id,
-  //   },
+  const saveData = await saveRes.json();
 
-  //   callback: async function (response: any) {
-  //     const verifyRes = await fetch("/api/verify", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({
-  //         reference: response.reference,
-  //       }),
-  //     });
-
-  //     const data = await verifyRes.json();
-
-  //     if (data.success) {
-  //       router.push("/client/dashboard");
-  //     } else {
-  //       alert("Payment verification failed");
-  //     }
-  //   },
-
-  //   onClose: function () {
-  //     console.log("Payment window closed");
-  //   },
-  // });
-
-  // handler.openIframe();
-  const payWithPaystack = () => {
-  if (!selectedPackage) {
-    alert("No package selected");
+  if (!saveData.success) {
+    alert("Failed to save client details");
     return;
   }
 
-  if (!formData.email) {
-    alert("Please enter your email");
-    return;
-  }
-
-  if (!window.PaystackPop) {
-    alert("Paystack not loaded");
-    return;
-  }
-
+  // 2️⃣ Open Paystack
   const handler = window.PaystackPop.setup({
-    key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
+    key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
     email: formData.email,
     amount: selectedPackage.price * 100,
     currency: "KES",
-    ref: `fit_${Date.now()}`,
-    metadata: {
-      full_name: formData.fullName,
-      phone: formData.phone,
-      package_title: selectedPackage.title,
-    },
+    ref: reference,
 
     callback: function (response: any) {
-      alert("Payment successful!");
-      console.log(response);
+      // Use an IIFE to handle async inside a synchronous callback
+      (async () => {
+        try {
+          await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ reference }),
+          });
+
+          alert("Payment successful!");
+          // ✅ Redirect to client dashboard
+          window.location.href = "/client/dashboard";
+
+        } catch (err) {
+          console.error(err);
+          alert("Payment verified, but something went wrong!");
+        }
+      })();
     },
 
     onClose: function () {
-      console.log("Payment window closed");
+      console.log("Payment closed");
     },
   });
 
   handler.openIframe();
 };
-
-//   const componentProps = {
-//   email: user?.email || "",
-//   amount: selectedPackage ? selectedPackage.price * 100 : 0,
-//   publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY as string,
-//   text: "Pay Now",
-//   onSuccess: (ref: any) => {
-//     router.push(`/client/dashboard?ref=${ref.reference}`);
-//   },
-//   onClose: () => alert("Payment closed"),
-// };
+  
   return (
     <>
       <Head>
-        <title>Personal Training Packages Watamu Kenya | Affordable Fitness Programs - Fit Hunter</title>
+        <title>
+          Personal Training Packages Watamu Kenya | Affordable Fitness Programs
+          - Fit Hunter
+        </title>
         <meta
           name="description"
           content="Discover affordable personal trainer packages in Watamu, Kenya. From weight loss programs to strength training and online coaching, choose flexible fitness plans at your preferred location."
@@ -200,7 +143,8 @@ export default function ProgramPage() {
               Pick Your Fitness Plan
             </h1>
             <p className="text-xl md:text-2xl leading-relaxed">
-              Simple, effective programs from your personal trainer in Watamu—building strength and confidence, one step at a time.
+              Simple, effective programs from your personal trainer in
+              Watamu building strength and confidence, one step at a time.
             </p>
           </div>
         </section>
@@ -210,13 +154,20 @@ export default function ProgramPage() {
           <div className="max-w-7xl mx-auto px-6">
             <Title heading="Premium Packages" />
             <p className="text-lg text-textMain text-center mb-12 leading-relaxed">
-              Tailored for serious results, with nutrition and tracking included. Save more with bigger packages.
+              Tailored for serious results, with nutrition and tracking
+              included. Save more with bigger packages.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <PackageCard
                 title="Jade Package"
                 price="KSh 20,625"
-                features={["5 sessions", "Save 8%", "Meal plan", "Personal workouts", "Progress tracking"]}
+                features={[
+                  "5 sessions",
+                  "Save 8%",
+                  "Meal plan",
+                  "Personal workouts",
+                  "Progress tracking",
+                ]}
                 variant="standardCard"
                 ctaLabel="Get Started"
                 onClick={() => handleBuyClick("Jade Package", 20625)}
@@ -224,7 +175,13 @@ export default function ProgramPage() {
               <PackageCard
                 title="Diamond Package"
                 price="KSh 55,500"
-                features={["15 sessions", "Save 18%", "Meal plan", "Personal workouts", "Progress tracking"]}
+                features={[
+                  "15 sessions",
+                  "Save 18%",
+                  "Meal plan",
+                  "Personal workouts",
+                  "Progress tracking",
+                ]}
                 badge="Best Value"
                 variant="premiumCard"
                 ctaLabel="Get Started"
@@ -233,7 +190,13 @@ export default function ProgramPage() {
               <PackageCard
                 title="Emerald Package"
                 price="KSh 39,170"
-                features={["10 sessions", "Save 13%", "Meal plan", "Personal workouts", "Progress tracking"]}
+                features={[
+                  "10 sessions",
+                  "Save 13%",
+                  "Meal plan",
+                  "Personal workouts",
+                  "Progress tracking",
+                ]}
                 variant="standardCard"
                 ctaLabel="Get Started"
                 onClick={() => handleBuyClick("Emerald Package", 39170)}
@@ -241,7 +204,9 @@ export default function ProgramPage() {
             </div>
             <div className="text-center mt-12">
               <p className="text-lg text-textMain mb-6 max-w-4xl mx-auto leading-relaxed">
-                All premium packages include personalized nutrition guidance and home workouts—backed by 5+ years of professional training experience.
+                All premium packages include personalized nutrition guidance and
+                home workouts—backed by 5+ years of professional training
+                experience.
               </p>
               <a href="mailto:1fithunter@gmail.com">
                 <button className="bg-button text-white px-8 py-3 text-lg font-semibold hover:bg-buttonHover transition-colors font-poppins">
@@ -257,7 +222,8 @@ export default function ProgramPage() {
           <div className="max-w-7xl mx-auto px-6">
             <Title heading="Standard Packages" />
             <p className="text-lg text-textMain text-center mb-12 leading-relaxed">
-              Flexible options for one-on-one sessions. Start small or commit for savings. <br />
+              Flexible options for one-on-one sessions. Start small or commit
+              for savings. <br />
               They are only available for in-person training in Watamu.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -303,13 +269,18 @@ export default function ProgramPage() {
           <div className="max-w-7xl mx-auto px-6">
             <Title heading="Online Services" />
             <p className="text-lg text-textMain text-center mb-12 leading-relaxed">
-              Train from anywhere with virtual options—perfect for busy schedules.
+              Train from anywhere with virtual options perfect for busy
+              schedules.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <PackageCard
                 title="Self-Paced"
                 price="KSh 3,000 / mon"
-                features={["Video Demonstration", "Email support", "Flexible access"]}
+                features={[
+                  "Video Demonstration",
+                  "Email support",
+                  "Flexible access",
+                ]}
                 variant="standardCard"
                 ctaLabel="Get Started"
                 onClick={() => handleBuyClick("Self-Paced", 3000)}
@@ -317,7 +288,11 @@ export default function ProgramPage() {
               <PackageCard
                 title="Meal Plan"
                 price="KSh 11,500 / mon"
-                features={["Custom nutrition", "Weekly tips", "Progress tracking"]}
+                features={[
+                  "Custom nutrition",
+                  "Weekly tips",
+                  "Progress tracking",
+                ]}
                 badge="Essential"
                 variant="premiumCard"
                 ctaLabel="Get Started"
@@ -326,7 +301,11 @@ export default function ProgramPage() {
               <PackageCard
                 title="Online Coaching"
                 price="KSh 30,000 / mon"
-                features={["Live sessions", "Personal plans", "Ongoing support"]}
+                features={[
+                  "Live sessions",
+                  "Personal plans",
+                  "Ongoing support",
+                ]}
                 variant="standardCard"
                 ctaLabel="Get Started"
                 onClick={() => handleBuyClick("Online Coaching", 30000)}
@@ -343,7 +322,8 @@ export default function ProgramPage() {
                 Promise
               </h2>
               <p className="text-lg md:text-xl text-textMain leading-relaxed">
-                Effective, personalized fitness from a professional trainer in Watamu.
+                Effective, personalized fitness from a professional trainer in
+                Watamu.
               </p>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -425,78 +405,112 @@ export default function ProgramPage() {
                   <h1 className="text-xl">cardio hiit</h1>
                   <h2 className="text-3xl">KES 3,000</h2>
                   <h5 className="text-sm">WHAT YOU'LL GET:</h5>
-                  <p><i className="ri-verified-badge-line"></i> 6 sessions</p>
-                  <p><i className="ri-verified-badge-line"></i> Save 5%</p>
-                  <p><i className="ri-verified-badge-line"></i> Email support</p>
-                  
+                  <p>
+                    <i className="ri-verified-badge-line"></i> 6 sessions
+                  </p>
+                  <p>
+                    <i className="ri-verified-badge-line"></i> Save 5%
+                  </p>
+                  <p>
+                    <i className="ri-verified-badge-line"></i> Email support
+                  </p>
                 </div>
               </div>
-              <div >
-                <div className="flex flex-col items-center">
+              <div>
+                <div className="flex flex-col items-center gap-4">
                   <Image
-                  width={100}
-                  height={100}
-                  alt="package"
-                  src={"/logo.webp"}
-                  className=""
-                />
-                <h2 className="text-2xl font-bold mb-6">Login or Sign Up</h2>
+                    width={100}
+                    height={100}
+                    alt="package"
+                    src={"/logo.webp"}
+                    className=""
+                  />
+                  <h2 className="text-2xl font-bold">Sign Up</h2>
 
-              
-              
-              <p className="mb-4">Please sign in to continue purchasing.</p>
+                  <p className="mb-4">Please sign up to continue purchasing.</p>
                 </div>
-              
-             
-              
-              <form action="#" className="grid grid-cols-1 gap-4">
-                {/* <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Full Name"/>
-                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder={`Email `} />
-                <input className="p-2 rounded-md bg-lightBg" type="number" placeholder="Phone Number"/>
-                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Region"/>
-                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Goal"/>
-                <input className="p-2 rounded-md bg-lightBg" type="text" placeholder="Age"/> */}
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  value={formData.fullName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, fullName: e.target.value })
-                  }
-                />
 
-                <input
-                  type="email"
-                  placeholder="Email"
-                  value={formData.email}
-                  onChange={(e) =>
-                    setFormData({ ...formData, email: e.target.value })
-                  }
-                />
+                <form action="#" className="grid grid-cols-1 gap-4">
+                  
+                  <input
+                    type="text"
+                    placeholder="Full Name"
+                    value={formData.fullName}
+                    className="p-2 rounded-md bg-lightBg"
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
+                  />
 
-                <input
-                  type="text"
-                  placeholder="Phone Number"
-                  value={formData.phone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, phone: e.target.value })
-                  }
-                />
-                <button
-                  type="button"
-                  onClick={payWithPaystack}
-                  className="bg-button text-white px-6 py-3 rounded w-full font-bold"
-                >
-                  PAY KES {selectedPackage?.price?.toLocaleString()}
-                </button>
-              
-              </form>
-              <div className="flex items-center justify-between">
-                <p onClick={onClose} className="font-bold text-button cursor-pointer underline">cancel</p>
-                <p>Already have account? <span className="font-bold text-button cursor-pointer ">sign in</span></p>
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={formData.email}
+                    className="p-2 rounded-md bg-lightBg"
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                  />
+
+                  <input
+                    type="number"
+                    placeholder="Phone Number"
+                    value={formData.phone}
+                    className="p-2 rounded-md bg-lightBg"
+                    onChange={(e) =>
+                      setFormData({ ...formData, phone: e.target.value })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="National"
+                    value={formData.nation}
+                    className="p-2 rounded-md bg-lightBg"
+                    onChange={(e) =>
+                      setFormData({ ...formData, nation: e.target.value })
+                    }
+                  />
+                  <input
+                    type="number"
+                    placeholder="Age"
+                    value={formData.age}
+                    className="p-2 rounded-md bg-lightBg"
+                    onChange={(e) =>
+                      setFormData({ ...formData, age: e.target.value })
+                    }
+                  />
+                  <input
+                    type="text"
+                    placeholder="goal"
+                    value={formData.goals}
+                    className="p-2 rounded-md bg-lightBg"
+                    onChange={(e) =>
+                      setFormData({ ...formData, goals: e.target.value })
+                    }
+                  />
+                  <button
+                    type="button"
+                    onClick={payWithPaystack}
+                    className="bg-button text-white px-6 py-3 rounded w-full font-bold"
+                  >
+                    PAY KES {selectedPackage?.price?.toLocaleString()}
+                  </button>
+                </form>
+                <div className="flex items-center justify-between py-4">
+                  <p
+                    onClick={onClose}
+                    className="font-bold text-button cursor-pointer underline"
+                  >
+                    cancel
+                  </p>
+                  <p>
+                    Already have account?{" "}
+                    <span className="font-bold text-button cursor-pointer ">
+                      sign in
+                    </span>
+                  </p>
+                </div>
               </div>
-              </div>
-              
             </div>
           </div>
         )}
