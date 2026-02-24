@@ -16,7 +16,7 @@ const features = [
   {
     icon: 'ri-brain-line',
     title: 'Progressive Approach',
-    description: 'Modern, science-based methods that adapt to your body, goals, and lifestyle—no outdated routines or guesswork.',
+    description: 'Modern, science-based methods that adapt to your body, goals, and lifestyle no outdated routines or guesswork.',
   },
   {
     icon: 'ri-service-line',
@@ -82,7 +82,7 @@ export default function Home() {
             <span className="block text-button">One Rep at a Time</span>
           </h1>
           <p className="text-xl md:text-2xl mb-10 max-w-3xl mx-auto leading-relaxed">
-            Your professional personal trainer in Watamu, Kenya — offering affordable,personal coaching, workout-programs(home or gym workouts) and mealplans that build strength and confidence.
+            Your professional personal trainer in Watamu, Kenya offering affordable,personal coaching, workout-programs(home or gym workouts) and mealplans that build strength and confidence.
           </p>
           <div className="flex gap-4 justify-center">
             <a href="mailto:1thefithunter@gmail.com" className="px-4 py-2 md:px-8 md:py-4  text-lg font-semibold transition-colors  text-base bg-button text-textSecondary hover:bg-buttonHover flex items-center justify-center">

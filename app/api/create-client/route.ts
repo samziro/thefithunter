@@ -9,7 +9,6 @@ const supabase = createClient(
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-
     const {
       fullName,
       email,
@@ -30,26 +29,23 @@ export async function POST(req: Request) {
           email,
           phone,
           nation,
-          age,
+          age: Number(age),
           goals,
           package_title: packageTitle,
-          package_price: packagePrice,
+          package_price: Number(packagePrice),
           status: "pending_payment",
           payment_reference: reference,
         },
-      ]);
+      ])
+      .select(); // important to return inserted row
 
     if (error) {
       console.error("🔥 SUPABASE ERROR:", error);
-      return NextResponse.json(
-        { success: false, error: error.message },
-        { status: 500 }
-      );
+      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
 
     console.log("✅ Inserted:", data);
 
-    // ✅ IMPORTANT: return a response on success
     return NextResponse.json({ success: true, data });
   } catch (err: any) {
     console.error("🔥 ROUTE ERROR:", err);
