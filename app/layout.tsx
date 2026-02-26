@@ -4,6 +4,7 @@ import Script from "next/script";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -135,6 +136,7 @@ export default function RootLayout({
 
           <main id="main-content" className="flex-1">
             {children}
+            <SpeedInsights />
           </main>
 
           <Footer/>
