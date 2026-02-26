@@ -56,7 +56,7 @@ export default function Footer() {
               />
             </div>
             <p className="text-textMain text-sm leading-relaxed">
-              Fit Hunter is your go-to personal trainer in Watamu, Kenya. I provide tailored fitness sessions—including one-on-one and Online training, to help you reach your health goals simply and effectively.
+              Fit Hunter is your go-to personal trainer in Watamu, Kenya. I provide tailored fitness sessions including one-on-one and Online training, to help you reach your health goals simply and effectively.
             </p>
           </div>
 
@@ -123,7 +123,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-[#292929] mt-8 pt-8 text-center text-sm text-textMain flex flex-col md:flex-row items-center justify-center gap-4">
+        <div className="border-t border-lightBg mt-8 pt-8 text-center text-sm text-textMain flex flex-col md:flex-row items-center justify-center gap-4">
           <p>&copy; {currentYear} FIT HUNTER. All rights reserved.</p>
           <p>Designed by <span><a href="https://samuel-ziro.vercel.app" className='font-bold'>techforgenode</a></span></p>
         </div>

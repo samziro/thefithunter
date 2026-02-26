@@ -34,8 +34,8 @@ export default function AdminModal({ open, onClose }: AdminModalProps) {
 
     try {
       // For demo/development – replace with secure backend auth later
-      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL || 'admin@fithunter.com';
-      const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || 'admin2025';
+      const adminEmail = process.env.NEXT_PUBLIC_ADMIN_EMAIL;
+      const adminPass = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
 
       if (trimmedEmail === adminEmail && trimmedPassword === adminPass) {
         localStorage.setItem('adminAuth', 'true');
@@ -55,7 +55,7 @@ export default function AdminModal({ open, onClose }: AdminModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-      <div className="w-full max-w-md bg-[#4a4a4a] rounded-lg shadow-2xl overflow-hidden">
+      <div className="w-full max-w-md bg-lightBg rounded-lg shadow-2xl overflow-hidden">
         <div className="p-8">
           <div className="text-center mb-6">
             <Image
@@ -81,7 +81,7 @@ export default function AdminModal({ open, onClose }: AdminModalProps) {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 bg-[#292929] border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:border-yellow-600 focus:ring-2 focus:ring-yellow-600/30 transition"
+                className="w-full px-4 py-3 bg-bg border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:border-yellow-600 focus:ring-2 focus:ring-yellow-600/30 transition"
                 placeholder="admin@fithunter.com"
                 required
                 autoComplete="email"
@@ -97,7 +97,7 @@ export default function AdminModal({ open, onClose }: AdminModalProps) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 bg-[#292929] border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:border-yellow-600 focus:ring-2 focus:ring-yellow-600/30 transition"
+                className="w-full px-4 py-3 bg-bg border border-slate-600 rounded-md text-white placeholder-slate-400 focus:outline-none focus:border-yellow-600 focus:ring-2 focus:ring-yellow-600/30 transition"
                 placeholder="••••••••"
                 required
                 autoComplete="current-password"
@@ -114,7 +114,7 @@ export default function AdminModal({ open, onClose }: AdminModalProps) {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 px-6 py-3 border border-slate-500 text-slate-200 rounded-md font-medium hover:bg-[#292929] transition "
+                className="flex-1 px-6 py-3 border border-slate-500 text-slate-200 rounded-md font-medium hover:bg-bg transition "
               >
                 Cancel
               </button>
@@ -127,10 +127,6 @@ export default function AdminModal({ open, onClose }: AdminModalProps) {
               </button>
             </div>
           </form>
-
-          {/* <p className="mt-6 text-center text-xs text-slate-400 ">
-            Demo: admin@fithunter.com / admin2025
-          </p> */}
         </div>
       </div>
     </div>

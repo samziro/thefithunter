@@ -38,60 +38,61 @@ export default function ProgramPage() {
   });
 
   // ----------FORM SANITIZAION ----------//
-  const [authMode, setAuthMode] = useState<"signup" | "signin">("signup");
+  const [isSignUp, setIsSignUp] = useState(true);
+
+  const handleToggleAuth = () => {
+    setIsSignUp(!isSignUp);
+  };
 
   const [password, setPassword] = useState("");
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
   const validateForm = () => {
+    const newErrors: { [key: string]: string } = {};
 
-  const newErrors: { [key: string]: string } = {};
+    const trimmedFullName = formData.fullName.trim();
 
-  const trimmedFullName = formData.fullName.trim();
+    const trimmedEmail = formData.email.trim().toLowerCase();
 
-  const trimmedEmail = formData.email.trim().toLowerCase();
+    const trimmedPhone = formData.phone.trim();
 
-  const trimmedPhone = formData.phone.trim();
+    const trimmedNation = formData.nation.trim();
 
-  const trimmedNation = formData.nation.trim();
+    const trimmedGoals = formData.goals.trim();
 
-  const trimmedGoals = formData.goals.trim();
+    const trimmedAge = formData.age.trim();
 
-  const trimmedAge = formData.age.trim();
+    if (isSignUp === true) {
+      if (trimmedFullName.length < 3)
+        newErrors.fullName = "Full name must be at least 3 characters.";
+    }
 
-  if (authMode === "signup") {
-    if (trimmedFullName.length < 3)
-      newErrors.fullName = "Full name must be at least 3 characters.";
-  }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail))
+      newErrors.email = "Invalid email format.";
 
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(trimmedEmail))
-    newErrors.email = "Invalid email format.";
+    const phoneRegex = /^[0-9]{7,15}$/;
+    if (!phoneRegex.test(trimmedPhone))
+      newErrors.phone = "Phone must be 7–15 digits.";
 
-  const phoneRegex = /^[0-9]{7,15}$/;
-  if (!phoneRegex.test(trimmedPhone))
-    newErrors.phone = "Phone must be 7–15 digits.";
+    if (isSignUp === true) {
+      if (!trimmedNation) newErrors.nation = "Nation is required.";
 
-  if (authMode === "signup") {
-    if (!trimmedNation)
-      newErrors.nation = "Nation is required.";
+      if (!trimmedGoals) newErrors.goals = "Goals are required.";
 
-    if (!trimmedGoals)
-      newErrors.goals = "Goals are required.";
+      const ageNumber = Number(trimmedAge);
+      if (isNaN(ageNumber) || ageNumber < 16 || ageNumber > 80)
+        newErrors.age = "Age must be between 16 and 80.";
+    }
 
-    const ageNumber = Number(trimmedAge);
-    if (isNaN(ageNumber) || ageNumber < 16 || ageNumber > 80)
-      newErrors.age = "Age must be between 16 and 80.";
-  }
+    if (password.length < 6)
+      newErrors.password = "Password must be at least 6 characters.";
 
-  if (password.length < 6)
-    newErrors.password = "Password must be at least 6 characters.";
+    setErrors(newErrors);
 
-  setErrors(newErrors);
-
-  return Object.keys(newErrors).length === 0;
-};
+    return Object.keys(newErrors).length === 0;
+  };
 
   // -------------------------
   // PACKAGE DATA
@@ -198,7 +199,6 @@ export default function ProgramPage() {
   };
 
   const payWithPaystack = async () => {
-
     if (!selectedPackage) return;
 
     const isValid = validateForm();
@@ -335,7 +335,13 @@ export default function ProgramPage() {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-bg rounded-2xl p-8 max-w-4xl w-full mx-4 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="grid grid-cols-1 gap-4 bg-lightBg p-4 rounded-xl">
-                <Image width={600} height={600} alt="package" src={"/mike.webp"} className="h-56 object-cover rounded-lg" />
+                <Image
+                  width={600}
+                  height={600}
+                  alt="package"
+                  src={"/mike.webp"}
+                  className="h-56 object-cover rounded-lg"
+                />
                 <h1 className="text-xl font-bold">{selectedPackage.title}</h1>
                 <h2 className="text-3xl font-bold">
                   KSh {selectedPackage.price.toLocaleString()}
@@ -343,7 +349,13 @@ export default function ProgramPage() {
                 <p className="text-sm font-bold">WHAT YOU WILL GET:</p>
                 <ul className="space-y-2 bg-bg rounded-md p-2">
                   {selectedPackage.features.map((feature, i) => (
-                    <li key={i}> <span><i className="ri-checkbox-circle-fill text-yellow-500"></i></span> {feature}</li>
+                    <li key={i}>
+                      {" "}
+                      <span>
+                        <i className="ri-checkbox-circle-fill text-yellow-500"></i>
+                      </span>{" "}
+                      {feature}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -352,29 +364,50 @@ export default function ProgramPage() {
                 <div className="flex justify-between">
                   <div className="flex flex-col gap-4">
                     <Image
-                    width={100}
-                    height={100}
-                    alt="package"
-                    src={"/logo.webp"}
-                    className=""
-                  />
-                  <h2 className="text-2xl font-bold">Sign Up</h2>
-                  <p className="mb-4">Please sign up to continue purchasing.</p>
+                      width={100}
+                      height={100}
+                      alt="package"
+                      src={"/logo.webp"}
+                      className=""
+                    />
+                    {isSignUp === true ? (
+                      <h2 className="text-2xl font-bold">Sign Up</h2>
+                    ) : (
+                      <h2 className="text-2xl font-bold">Sign In</h2>
+                    )}
+                    {isSignUp === true ? (
+                      <p className="mb-4">
+                        Create an account to continue purchasing.
+                      </p>
+                    ) : (
+                      <p className="mb-4">
+                        Welcome back! Please sign in to continue purchasing.
+                      </p>
+                    )}
                   </div>
-                  <i onClick={onClose} className="ri-close-large-line text-2xl text-yellow-500 font-bold cursor-pointer"></i>
+                  <i
+                    onClick={onClose}
+                    className="ri-close-large-line text-2xl text-yellow-500 font-bold cursor-pointer"
+                  ></i>
                 </div>
                 <form action="#" className="grid grid-cols-1 gap-4">
-                  <input
-                    type="text"
-                    placeholder="Full Name"
-                    value={formData.fullName}
-                    className="p-2 rounded-md bg-lightBg"
-                    onChange={(e) =>
-                      setFormData({ ...formData, fullName: e.target.value })
-                    }
-                  />
-                  {errors.fullName && (
-                    <p className="text-red-500 text-sm">{errors.fullName}</p>
+                  {isSignUp && (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="Full Name"
+                        value={formData.fullName}
+                        className="p-2 rounded-md bg-lightBg"
+                        onChange={(e) =>
+                          setFormData({ ...formData, fullName: e.target.value })
+                        }
+                      />
+                      {errors.fullName && (
+                        <p className="text-red-500 text-sm">
+                          {errors.fullName}
+                        </p>
+                      )}
+                    </>
                   )}
                   <input
                     type="email"
@@ -385,84 +418,101 @@ export default function ProgramPage() {
                       setFormData({ ...formData, email: e.target.value })
                     }
                   />{" "}
-                  <input
-                    type="number"
-                    placeholder="Phone Number"
-                    value={formData.phone}
-                    className="p-2 rounded-md bg-lightBg"
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                  />
-                  {errors.number && (
-                    <p className="text-red-500 text-sm">{errors.number}</p>
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">{errors.email}</p>
                   )}
-                  <input
-                    type="text"
-                    placeholder="National"
-                    value={formData.nation}
-                    className="p-2 rounded-md bg-lightBg"
-                    onChange={(e) =>
-                      setFormData({ ...formData, nation: e.target.value })
-                    }
-                  />
-                  {errors.National && (
-                    <p className="text-red-500 text-sm">{errors.National}</p>
-                  )}
-                  <input
-                    type="number"
-                    placeholder="Age"
-                    value={formData.age}
-                    className="p-2 rounded-md bg-lightBg"
-                    onChange={(e) =>
-                      setFormData({ ...formData, age: e.target.value })
-                    }
-                  />
-                  {errors.Age && (
-                    <p className="text-red-500 text-sm">{errors.Age}</p>
-                  )}
-                  <input
-                    type="text"
-                    placeholder="goal"
-                    value={formData.goals}
-                    className="p-2 rounded-md bg-lightBg"
-                    onChange={(e) =>
-                      setFormData({ ...formData, goals: e.target.value })
-                    }
-                     />
+                  {isSignUp && (
+                    <>
+                      <input
+                        type="number"
+                        placeholder="Phone Number"
+                        value={formData.phone}
+                        className="p-2 rounded-md bg-lightBg"
+                        onChange={(e) =>
+                          setFormData({ ...formData, phone: e.target.value })
+                        }
+                      />
+                      {errors.number && (
+                        <p className="text-red-500 text-sm">{errors.number}</p>
+                      )}
 
-                  {errors.goal && (
-                    <p className="text-red-500 text-sm">{errors.goal}</p>
-                  )}
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    className="p-2 rounded-md bg-lightBg"
-                    onChange={(e) => setPassword(e.target.value)}
-                  />
-                  {errors.password && (
-                    <p className="text-red-500 text-sm">{errors.password}</p>
-                  )}
+                      <input
+                        type="text"
+                        placeholder="National"
+                        value={formData.nation}
+                        className="p-2 rounded-md bg-lightBg"
+                        onChange={(e) =>
+                          setFormData({ ...formData, nation: e.target.value })
+                        }
+                      />
+                      {errors.National && (
+                        <p className="text-red-500 text-sm">
+                          {errors.National}
+                        </p>
+                      )}
+                      <input
+                        type="number"
+                        placeholder="Age"
+                        value={formData.age}
+                        className="p-2 rounded-md bg-lightBg"
+                        onChange={(e) =>
+                          setFormData({ ...formData, age: e.target.value })
+                        }
+                      />
+                      {errors.Age && (
+                        <p className="text-red-500 text-sm">{errors.Age}</p>
+                      )}
+                      <input
+                        type="text"
+                        placeholder="goal"
+                        value={formData.goals}
+                        className="p-2 rounded-md bg-lightBg"
+                        onChange={(e) =>
+                          setFormData({ ...formData, goals: e.target.value })
+                        }
+                      />
+
+                      {errors.goal && (
+                        <p className="text-red-500 text-sm">{errors.goal}</p>
+                      )}
+                      
+                    </>
+                    )}
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        className="p-2 rounded-md bg-lightBg"
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
+                      {errors.password && (
+                        <p className="text-red-500 text-sm">
+                          {errors.password}
+                        </p>
+                      )}
+                      
                   
                 </form>
                 <button
-                    onClick={payWithPaystack}
-                    className="bg-button text-white px-6 py-3 w-full mt-4 font-bold"
+                  onClick={payWithPaystack}
+                  className="bg-button text-white px-6 py-3 w-full mt-4 font-bold"
+                >
+                  PAY KSh {selectedPackage.price.toLocaleString()}
+                </button>
+                <p className="mt-4 cursor-pointer ">
+                  Already have account?{" "}
+                  <span
+                    onClick={handleToggleAuth}
+                    className="font-bold text-button cursor-pointer underline"
                   >
-                    PAY KSh {selectedPackage.price.toLocaleString()}
-                  </button>
-                  <p
-                    className="mt-4 cursor-pointer "
-                  >
-                   Already have account?{" "} <span className="font-bold text-button cursor-pointer underline"> sign in </span>
-                  </p>
+                    {" "}
+                    sign in{" "}
+                  </span>
+                </p>
               </div>
             </div>
           </div>
         )}
-
-        
       </div>
     </>
   );
