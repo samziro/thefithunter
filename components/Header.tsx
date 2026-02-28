@@ -54,7 +54,7 @@ export default function Header() {
               Admin
             </button>
             <Link
-              href="/programs"
+              href="/auth"
               className="bg-button text-white px-6 py-3 font-semibold hover:bg-buttonHover transition-colors "
             >
               Get Started

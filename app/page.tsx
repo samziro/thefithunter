@@ -55,7 +55,7 @@ const CTAButton: React.FC<CTAButtonProps> = ({ href, children, className = '' })
 export default function Home() {
   return (
       <>
-            <Head>
+        <Head>
         <title>Personal Trainer Watamu Kenya | Affordable Fitness Coaching - Fit Hunter</title>
         <meta
           name="description"
@@ -184,9 +184,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <Footer />
     </div>
+    <Footer />
       </>
   );
 }
