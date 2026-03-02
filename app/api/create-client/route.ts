@@ -15,7 +15,7 @@ export async function POST(req: Request) {
       phone,
       nation,
       age,
-      goals,
+      goal,
       packageTitle,
       packagePrice,
       reference,
