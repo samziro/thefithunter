@@ -33,7 +33,7 @@ export default function ProgramPage() {
     email: "",
     phone: "",
     nation: "",
-    goals: "",
+    goal: "",
     age: "",
   });
 
@@ -59,7 +59,7 @@ export default function ProgramPage() {
 
     const trimmedNation = formData.nation.trim();
 
-    const trimmedGoals = formData.goals.trim();
+    const trimmedGoals = formData.goal.trim();
 
     const trimmedAge = formData.age.trim();
 
@@ -465,10 +465,10 @@ export default function ProgramPage() {
                       <input
                         type="text"
                         placeholder="goal"
-                        value={formData.goals}
+                        value={formData.goal}
                         className="p-2 rounded-md bg-lightBg"
                         onChange={(e) =>
-                          setFormData({ ...formData, goals: e.target.value })
+                          setFormData({ ...formData, goal: e.target.value })
                         }
                       />
 
