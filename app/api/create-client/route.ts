@@ -30,10 +30,10 @@ export async function POST(req: Request) {
           phone,
           nation,
           age: Number(age),
-          goals,
+          goal,
           package_title: packageTitle,
           package_price: Number(packagePrice),
-          status: "pending_payment",
+          payment_status: "pending_payment",
           payment_reference: reference,
         },
       ])
