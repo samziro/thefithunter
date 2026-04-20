@@ -8,91 +8,91 @@ import PackageCard from "@/components/PackageCard";
 import Head from "next/head";
 import Image from "next/image";
 
-declare global {
-  interface Window {
-    PaystackPop: any;
-  }
-}
+// declare global {
+//   interface Window {
+//     PaystackPop: any;
+//   }
+// }
 
-type Package = {
-  title: string;
-  price: number;
-  features: string[];
-  badge?: string;
-  variant?: "standardCard" | "premiumCard";
-  ctaLabel?: string;
-};
+// type Package = {
+//   title: string;
+//   price: number;
+//   features: string[];
+//   badge?: string;
+//   variant?: "standardCard" | "premiumCard";
+//   ctaLabel?: string;
+// };
 
 export default function ProgramPage() {
   const router = useRouter();
 
-  const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
+  // const [selectedPackage, setSelectedPackage] = useState<Package | null>(null);
 
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    nation: "",
-    goal: "",
-    age: "",
-  });
+  // const [formData, setFormData] = useState({
+  //   fullName: "",
+  //   email: "",
+  //   phone: "",
+  //   nation: "",
+  //   goal: "",
+  //   age: "",
+  // });
 
   // ----------FORM SANITIZAION ----------//
-  const [isSignUp, setIsSignUp] = useState(true);
+  // const [isSignUp, setIsSignUp] = useState(true);
 
-  const handleToggleAuth = () => {
-    setIsSignUp(!isSignUp);
-  };
+  // const handleToggleAuth = () => {
+  //   setIsSignUp(!isSignUp);
+  // };
 
-  const [password, setPassword] = useState("");
+  // const [password, setPassword] = useState("");
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  // const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  const validateForm = () => {
-    const newErrors: { [key: string]: string } = {};
+  // const validateForm = () => {
+  //   const newErrors: { [key: string]: string } = {};
 
-    const trimmedFullName = formData.fullName.trim();
+  //   const trimmedFullName = formData.fullName.trim();
 
-    const trimmedEmail = formData.email.trim().toLowerCase();
+  //   const trimmedEmail = formData.email.trim().toLowerCase();
 
-    const trimmedPhone = formData.phone.trim();
+  //   const trimmedPhone = formData.phone.trim();
 
-    const trimmedNation = formData.nation.trim();
+  //   const trimmedNation = formData.nation.trim();
 
-    const trimmedGoals = formData.goal.trim();
+  //   const trimmedGoals = formData.goal.trim();
 
-    const trimmedAge = formData.age.trim();
+  //   const trimmedAge = formData.age.trim();
 
-    if (isSignUp === true) {
-      if (trimmedFullName.length < 3)
-        newErrors.fullName = "Full name must be at least 3 characters.";
-    }
+  //   if (isSignUp === true) {
+  //     if (trimmedFullName.length < 3)
+  //       newErrors.fullName = "Full name must be at least 3 characters.";
+  //   }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(trimmedEmail))
-      newErrors.email = "Invalid email format.";
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   if (!emailRegex.test(trimmedEmail))
+  //     newErrors.email = "Invalid email format.";
 
-    const phoneRegex = /^[0-9]{7,15}$/;
-    if (!phoneRegex.test(trimmedPhone))
-      newErrors.phone = "Phone must be 7–15 digits.";
+  //   const phoneRegex = /^[0-9]{7,15}$/;
+  //   if (!phoneRegex.test(trimmedPhone))
+  //     newErrors.phone = "Phone must be 7–15 digits.";
 
-    if (isSignUp === true) {
-      if (!trimmedNation) newErrors.nation = "Nation is required.";
+  //   if (isSignUp === true) {
+  //     if (!trimmedNation) newErrors.nation = "Nation is required.";
 
-      if (!trimmedGoals) newErrors.goals = "Goals are required.";
+  //     if (!trimmedGoals) newErrors.goals = "Goals are required.";
 
-      const ageNumber = Number(trimmedAge);
-      if (isNaN(ageNumber) || ageNumber < 16 || ageNumber > 80)
-        newErrors.age = "Age must be between 16 and 80.";
-    }
+  //     const ageNumber = Number(trimmedAge);
+  //     if (isNaN(ageNumber) || ageNumber < 16 || ageNumber > 80)
+  //       newErrors.age = "Age must be between 16 and 80.";
+  //   }
 
-    if (password.length < 6)
-      newErrors.password = "Password must be at least 6 characters.";
+  //   if (password.length < 6)
+  //     newErrors.password = "Password must be at least 6 characters.";
 
-    setErrors(newErrors);
+  //   setErrors(newErrors);
 
-    return Object.keys(newErrors).length === 0;
-  };
+  //   return Object.keys(newErrors).length === 0;
+  // };
 
   // -------------------------
   // PACKAGE DATA
@@ -141,120 +141,120 @@ export default function ProgramPage() {
     },
   ];
 
-  const standardPackages: Package[] = [
-    {
-      title: "Single Session",
-      price: 2000,
-      features: ["1 session", "Personalized workout", "Expert tips"],
-    },
-    {
-      title: "6 Sessions",
-      price: 11400,
-      features: ["6 sessions", "Save 5%", "Email support"],
-    },
-    {
-      title: "10 Sessions",
-      price: 18000,
-      features: ["10 sessions", "Save 10%", "Priority support"],
-      badge: "Popular",
-      variant: "premiumCard",
-    },
-    {
-      title: "16 Sessions",
-      price: 21600,
-      features: ["16 sessions", "Save 15%", "Monthly check-ins"],
-    },
-  ];
+  // const standardPackages: Package[] = [
+  //   {
+  //     title: "Single Session",
+  //     price: 2000,
+  //     features: ["1 session", "Personalized workout", "Expert tips"],
+  //   },
+  //   {
+  //     title: "6 Sessions",
+  //     price: 11400,
+  //     features: ["6 sessions", "Save 5%", "Email support"],
+  //   },
+  //   {
+  //     title: "10 Sessions",
+  //     price: 18000,
+  //     features: ["10 sessions", "Save 10%", "Priority support"],
+  //     badge: "Popular",
+  //     variant: "premiumCard",
+  //   },
+  //   {
+  //     title: "16 Sessions",
+  //     price: 21600,
+  //     features: ["16 sessions", "Save 15%", "Monthly check-ins"],
+  //   },
+  // ];
 
-  const onlinePackages: Package[] = [
-    {
-      title: "Self-Paced",
-      price: 3000,
-      features: ["Video Demonstration", "Email support", "Flexible access"],
-    },
-    {
-      title: "Meal Plan",
-      price: 11500,
-      features: ["Custom nutrition", "Weekly tips", "Progress tracking"],
-      badge: "Essential",
-      variant: "premiumCard",
-    },
-    {
-      title: "Online Coaching",
-      price: 30000,
-      features: ["Live sessions", "Personal plans", "Ongoing support"],
-    },
-  ];
+  // const onlinePackages: Package[] = [
+  //   {
+  //     title: "Self-Paced",
+  //     price: 3000,
+  //     features: ["Video Demonstration", "Email support", "Flexible access"],
+  //   },
+  //   {
+  //     title: "Meal Plan",
+  //     price: 11500,
+  //     features: ["Custom nutrition", "Weekly tips", "Progress tracking"],
+  //     badge: "Essential",
+  //     variant: "premiumCard",
+  //   },
+  //   {
+  //     title: "Online Coaching",
+  //     price: 30000,
+  //     features: ["Live sessions", "Personal plans", "Ongoing support"],
+  //   },
+  // ];
 
   // -------------------------
   // HANDLERS
   // -------------------------
 
-  const handleBuyClick = (pkg: Package) => {
-    setSelectedPackage(pkg);
-  };
+  // const handleBuyClick = (pkg: Package) => {
+  //   setSelectedPackage(pkg);
+  // };
 
-  const onClose = () => {
-    setSelectedPackage(null);
-  };
+  // const onClose = () => {
+  //   setSelectedPackage(null);
+  // };
 
-  const payWithPaystack = async () => {
-    if (!selectedPackage) return;
+  // const payWithPaystack = async () => {
+  //   if (!selectedPackage) return;
 
-    const isValid = validateForm();
-    if (!isValid) return;
+  //   const isValid = validateForm();
+  //   if (!isValid) return;
 
-    const reference = `fit_${Date.now()}`;
+  //   const reference = `fit_${Date.now()}`;
 
-    const saveRes = await fetch("/api/create-client", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        ...formData,
-        packageTitle: selectedPackage.title,
-        packagePrice: selectedPackage.price,
-        reference,
-      }),
-    });
+  //   const saveRes = await fetch("/api/create-client", {
+  //     method: "POST",
+  //     headers: { "Content-Type": "application/json" },
+  //     body: JSON.stringify({
+  //       ...formData,
+  //       packageTitle: selectedPackage.title,
+  //       packagePrice: selectedPackage.price,
+  //       reference,
+  //     }),
+  //   });
 
-    const saveData = await saveRes.json();
+  //   const saveData = await saveRes.json();
 
-    if (!saveData.success) {
-      alert("Failed to save client details");
-      return;
-    }
+    // if (!saveData.success) {
+    //   alert("Failed to save client details");
+    //   return;
+    // }
 
-    const handler = window.PaystackPop.setup({
-      key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
-      email: formData.email,
-      amount: selectedPackage.price * 100,
-      currency: "KES",
-      ref: reference,
+  //   const handler = window.PaystackPop.setup({
+  //     key: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY!,
+  //     email: formData.email,
+  //     amount: selectedPackage.price * 100,
+  //     currency: "KES",
+  //     ref: reference,
 
-      callback: function () {
-        (async () => {
-          try {
-            await fetch("/api/verify-payment", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ reference }),
-            });
+  //     callback: function () {
+  //       (async () => {
+  //         try {
+  //           await fetch("/api/verify-payment", {
+  //             method: "POST",
+  //             headers: { "Content-Type": "application/json" },
+  //             body: JSON.stringify({ reference }),
+  //           });
 
-            window.location.href = "/client/dashboard";
-          } catch (err) {
-            console.error(err);
-            alert("Payment verified but something went wrong.");
-          }
-        })();
-      },
+  //           window.location.href = "/client/dashboard";
+  //         } catch (err) {
+  //           console.error(err);
+  //           alert("Payment verified but something went wrong.");
+  //         }
+  //       })();
+  //     },
 
-      onClose: function () {
-        console.log("Payment closed");
-      },
-    });
+  //     onClose: function () {
+  //       console.log("Payment closed");
+  //     },
+  //   });
 
-    handler.openIframe();
-  };
+  //   handler.openIframe();
+  // };
 
   // -------------------------
   // RENDER
@@ -291,7 +291,7 @@ export default function ProgramPage() {
         </section>
 
         {/* STANDARD */}
-        <section className="py-20 bg-bg">
+        {/* <section className="py-20 bg-bg">
           <div className="max-w-7xl mx-auto px-6">
             <Title heading="Standard Packages" />
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mt-12">
@@ -308,10 +308,10 @@ export default function ProgramPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* ONLINE */}
-        <section className="py-20 bg-lightBg">
+        {/* <section className="py-20 bg-lightBg">
           <div className="max-w-7xl mx-auto px-6">
             <Title heading="Online Services" />
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
@@ -328,10 +328,10 @@ export default function ProgramPage() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
 
         {/* MODAL */}
-        {selectedPackage && (
+        {/* /* {selectedPackage && (
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div className="bg-bg rounded-2xl p-8 max-w-4xl w-full mx-4 grid grid-cols-1 md:grid-cols-2 gap-8">
               <div className="grid grid-cols-1 gap-4 bg-lightBg p-4 rounded-xl">
@@ -513,7 +513,7 @@ export default function ProgramPage() {
             </div>
           </div>
         )}
-      </div>
+      </div> */ */}
     </>
   );
 }
