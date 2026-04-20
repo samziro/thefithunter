@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import Header from "@/components/Header";
 import Title from "@/components/Title";
 import PackageCard from "@/components/PackageCard";
-import Image from "next/image"; // remove if truly unused
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,7 +22,7 @@ type Package = {
 export default function ProgramPage() {
   const router = useRouter();
 
-   const premiumPackages: Package[] = [
+  const premiumPackages: Package[] = [
     {
       title: "Jade Package",
       price: 20625,
@@ -66,17 +65,16 @@ export default function ProgramPage() {
     },
   ];
 
-
   const handleBuyClick = (pkg: Package) => {
     router.push(`/checkout?package=${encodeURIComponent(pkg.title)}`);
-    // or whatever logic you need (modal, API call, etc.)
+    // Add your purchase logic here (modal, API call, etc.)
   };
 
   return (
     <div className="min-h-dvh">
       <Header />
 
-      {/* PREMIUM */}
+      {/* PREMIUM PACKAGES SECTION */}
       <section className="py-20 bg-lightBg">
         <div className="max-w-7xl mx-auto px-6">
           <Title heading="Premium Packages" />
