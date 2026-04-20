@@ -83,6 +83,7 @@ export default function ProgramPage() {
             </div>
           </div>
         </section>
+       </div>
     </>
   );
 }
