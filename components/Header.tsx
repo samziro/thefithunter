@@ -32,9 +32,7 @@ export default function Header() {
               priority
               
             />
-            <span className="ml-3 text-xl font-bold text-textSecondary  hidden sm:block">
-              Fit Hunter
-            </span>
+           
           </Link>
 
           {/* Desktop Navigation */}

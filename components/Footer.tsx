@@ -80,7 +80,7 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-textMain hover:text-button transition-colors">
+                <Link href="/about/#contact" className="text-textMain hover:text-button transition-colors">
                   Contact
                 </Link>
               </li>
@@ -126,7 +126,7 @@ export default function Footer() {
 
         <div className="border-t border-lightBg mt-8 pt-8 text-center text-sm text-textMain flex flex-col md:flex-row items-center justify-center gap-4">
           <p>&copy; {currentYear} FIT HUNTER. All rights reserved.</p>
-          <p>Designed by <span><a href="https://samuel-ziro.vercel.app" className='font-bold'>techforgenode</a></span></p>
+          <p>Designed by <span><a href="https://wanjeziro.co.ke" className='font-semibold'>techforgenode</a></span></p>
         </div>
       </div>
     </footer>

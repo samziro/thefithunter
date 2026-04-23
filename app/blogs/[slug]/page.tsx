@@ -113,7 +113,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#292929] py-24">
+    <div className="min-h-screen bg-bg py-24">
       <div className="max-w-4xl mx-auto px-6">
         {/* Back button */}
         <Link
@@ -124,7 +124,7 @@ export default function BlogPostPage({ params }: { params: { slug: string } }) {
         </Link>
 
         {/* Article */}
-        <article className="bg-[#4a4a4a] rounded-xl shadow-2xl overflow-hidden">
+        <article className="bg-lightBg rounded-xl shadow-2xl overflow-hidden">
           {/* Featured Image */}
           {post.featured_image && (
             <div className="relative aspect-video">

@@ -5,7 +5,7 @@ import Title from '@/components/Title';
 
 const Location = () => {
   return (
-    <section className="bg-bg py-12">
+    <section className="bg-bg py-12" id='contact'>
       <Title heading="Location" />
       <div className="max-w-7xl mx-auto my-12 py-8 flex flex-col md:flex-row gap-8 items-center">
         <div className="w-full md:w-1/2 mx-auto flex flex-col gap-4 px-6">

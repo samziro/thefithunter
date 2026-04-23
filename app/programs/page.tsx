@@ -118,8 +118,8 @@ function PricingCard({
  className={`relative flex flex-col p-6 transition-shadow duration-200
  ${
  pkg.featured
- ? "bg-button border-2 border-yellow-100"
- : "bg-bg border-2 border-yellow-100 hover:shadow-md"
+ ? "bg-button"
+ : "bg-bg hover:shadow-md"
  }`}
  >
  {/* Best Value badge */}
