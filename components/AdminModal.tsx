@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import React from "react";
 
 interface AdminModalProps {
   open: boolean;

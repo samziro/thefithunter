@@ -47,12 +47,12 @@ export default function Header() {
                 {link.label}
               </Link>
             ))}
-            <button
+            {/* <button
               onClick={() => setIsAdminOpen(true)}
               className="text-textSecondary font-medium hover:text-button transition-colors "
             >
               Admin
-            </button>
+            </button> */}
             <Link
               href="/programs"
               className="bg-button text-white px-6 py-3 font-semibold hover:bg-buttonHover transition-colors "
