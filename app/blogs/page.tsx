@@ -1,8 +1,9 @@
+import React from "react";
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from "next/head";
 import { createClient } from '@supabase/supabase-js';
-import React from "react";
+
 
 interface BlogPost {
   slug: string;
