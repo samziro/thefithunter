@@ -35,7 +35,7 @@ const packages: Package[] = [
  savingsPct: 8,
  pricePerSession: 4_125,
  features: [
-  "5  1-hour personal training sessions",
+  "5 * 1-hour personal training sessions",
   "Personalised workout program",
   "Weekly progress check-ins",
   "WhatsApp trainer support",
@@ -53,7 +53,7 @@ const packages: Package[] = [
  savingsPct: 18,
  pricePerSession: 3_700,
  features: [
-  "15  1-hour personal training sessions",
+  "15 * 1-hour personal training sessions",
   "Periodised training program",
   "Bi-weekly progress reviews",
   "Priority WhatsApp support",
@@ -73,7 +73,7 @@ const packages: Package[] = [
  savingsPct: 13,
  pricePerSession: 3_917,
  features: [
- "10  1-hour personal training sessions",
+ "10 * 1-hour personal training sessions",
  "Progressive workout program",
  "Bi-weekly progress reviews",
  "WhatsApp trainer support",
@@ -134,7 +134,7 @@ function PricingCard({
 {/* Header */}
  <div className="mb-4">
  <p className="text-sm font-medium text-textMain mb-1">
- {pkg.title}  {pkg.sessions} sessions
+ {pkg.title} . {pkg.sessions} sessions
  </p>
 
  {/* Price + original */}
