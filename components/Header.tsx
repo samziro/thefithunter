@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import AdminModal from './AdminModal';
+import React from "react";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
