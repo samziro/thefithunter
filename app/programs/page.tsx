@@ -36,7 +36,7 @@ const packages: Package[] = [
  savingsPct: 8,
  pricePerSession: 4_125,
  features: [
-  "5 * 1-hour personal training sessions",
+  "5 x 1-hour personal training sessions",
   "Personalised workout program",
   "Weekly progress check-ins",
   "WhatsApp trainer support",
@@ -54,7 +54,7 @@ const packages: Package[] = [
  savingsPct: 18,
  pricePerSession: 3_700,
  features: [
-  "15 * 1-hour personal training sessions",
+  "15 x 1-hour personal training sessions",
   "Periodised training program",
   "Bi-weekly progress reviews",
   "Priority WhatsApp support",
@@ -74,7 +74,7 @@ const packages: Package[] = [
  savingsPct: 13,
  pricePerSession: 3_917,
  features: [
- "10 * 1-hour personal training sessions",
+ "10 x 1-hour personal training sessions",
  "Progressive workout program",
  "Bi-weekly progress reviews",
  "WhatsApp trainer support",
