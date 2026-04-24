@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | Fit Hunter",
   },
   description:
-    "Professional personal trainer in Watamu, Kenya. Affordable one-on-one sessions, meal plans, workout programs and online coaching.",
+    "Professional personal trainer in Watamu, Kenya. Affordable one-on-one sessions, workout programs and online coaching.",
   metadataBase: new URL("https://thefithunter.com"),
 };
 

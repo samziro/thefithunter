@@ -216,7 +216,7 @@ const faqs = [
  },
  {
   q: "Where are the sessions held?",
-  a: "At our Nairobi studio, your home, or a location of your choice  trainer travel is included.",
+  a: "At your home, or a location of your choice  trainer travel is included.",
  },
  {
   q: "Is there a satisfaction guarantee?",
@@ -261,7 +261,7 @@ export default function ProgramPage() {
  Choose your transformation package
      </h1>
      <p className="text-center text-textMain text-base max-w-xl mx-auto mb-10 leading-relaxed">
- Every package includes a certified trainer, personalised meal plan,
+ Every package includes a professional trainer,
  and unlimited WhatsApp support between sessions.
      </p>
 
